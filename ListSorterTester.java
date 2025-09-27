@@ -11,6 +11,7 @@ import org.w3c.dom.DOMStringList;
 
 class ListSorterTester {
 	ArrayList<Integer> intList;
+	ArrayList<Integer> biggerIntList; 
 	ArrayList<String> wordList;
 	ArrayList<Integer> intListOrdered;
 	ArrayList<String> wordListOrdered; 
@@ -21,6 +22,7 @@ class ListSorterTester {
 	void setUp() {
 		intList = new ArrayList<Integer>();
 		intListOrdered = new ArrayList<Integer>();
+		biggerIntList = new ArrayList<Integer>();
 		wordList = new ArrayList<String>();
 		wordListOrdered = new ArrayList<String>();
 		ascendingInts = new ArrayList<Integer>();
@@ -35,6 +37,23 @@ class ListSorterTester {
 		intList.add(100);
 		intList.add(200);
 		intList.add(-5);
+		
+		//add integers to bigger intList
+		biggerIntList.add(3);
+		biggerIntList.add(-20);
+		biggerIntList.add(40);
+		biggerIntList.add(12);
+		biggerIntList.add(2);
+		biggerIntList.add(100);
+		biggerIntList.add(200);
+		biggerIntList.add(-5);
+		biggerIntList.add(6);
+		biggerIntList.add(0);
+		biggerIntList.add(2);
+		biggerIntList.add(9);
+		biggerIntList.add(1);
+		biggerIntList.add(4);
+		biggerIntList.add(8);
 		
 		//add integers to intListOrdered
 		intListOrdered.add(-20);
@@ -86,6 +105,19 @@ class ListSorterTester {
 	void testMergeSortWithIntegers() {
 		ListSorter.mergesort(intList, 3);
 		assertEquals(intListOrdered, intList);
+	}
+	
+	@Test
+	void testMergeSortWithIntegersOddNumberOfEntriesEvenEvenThreshold() {
+		ArrayList<Integer> comparison = new ArrayList<Integer>();
+		
+		for (int i = 0; i < biggerIntList.size(); i++) {
+			comparison.add(biggerIntList.get(i));
+		}
+		comparison.sort((int1, int2) -> int1.compareTo(int2));
+		
+		ListSorter.mergesort(biggerIntList, 2);
+		assertEquals(comparison, biggerIntList);
 	}
 	
 	@Test

@@ -25,24 +25,21 @@ public class ListSorter {
 	 * @param cmp the comparator used to compare elements
 	 */
 	public static <T extends Comparable<? super T>> void insertionSort(List<T> arr, int left, int right) {
-		int current = 1;
-		int previous = 0;
-		
-		for (int i = left; i <= right; i++ ) {
-			while ((previous >= 0) && (arr.get(current+i).compareTo(arr.get(previous+i)) < 0)) {
-				T placeholder = arr.get(current + i);
-				arr.set(current + i, arr.get(previous + i));
-				arr.set(previous + i, placeholder);
-				current--;
-				previous--;
-			}
-			current = i;
-			previous = i - 1;
-		}
+		for (int i = left + 1; i <= right; i++) {
+	        T item = arr.get(i);
+	        int j = i - 1;
+
+	        while (j >= left && arr.get(j).compareTo(item) > 0) {
+	            arr.set(j + 1, arr.get(j)); 
+	            j--;
+	        }
+	        
+	        arr.set(j + 1, item);
+	    }
 	}
 	
 	private static <T extends Comparable<? super T>> void mergesortRecursive(List<T> list, int threshold, int left, int right, List<T> tempList) {
-		if ((right - left + 1) <= threshold) {
+		if (((right - left + 1)/2) <= threshold) {
 			insertionSort(list, left, right);
 			return;
 		}
@@ -55,29 +52,37 @@ public class ListSorter {
 	}
 	
 	private static <T extends Comparable<? super T>> void mergeStep(List<T> list, int left, int mid, int right, List<T> tempList) {
-		for(int i = left; i <= mid; i+=2) {
-			if (list.get(mid+1+i).compareTo(list.get(i)) < 0) {
-				tempList.set(i, list.get(mid+i));
-				tempList.set(i+1, list.get(i));
+		int tempSize = 0;
+		int l = left;
+		int r = mid + 1;
+		
+		while (r <= right && l <= mid) {
+			if (list.get(r).compareTo(list.get(l)) < 0) {
+				tempList.set(tempSize, list.get(r));
+				tempSize++;
+				r++;
 			} else {
-				tempList.set(i, list.get(i));
-				tempList.set(i+1, list.get(mid+1+i));
-			}
-		}
-		if ((right - mid) > (mid - left)) {
-			for (int j = right; j > (right - mid) - (mid - left); j--) {
-				tempList.set(j, list.get(j));
+				tempList.set(tempSize, list.get(l));
+				tempSize++;
+				l++;
 			}
 		}
 		
-		if ((right - mid) < (mid - left)) {
-			for (int j = right; j > (mid - left) - (right - mid); j--) {
-				tempList.set(j, list.get(j - mid));
+		if (r > right) {
+			for (int i = l; i <= mid; i++) {
+				tempList.set(tempSize, list.get(i));
+				tempSize++;
+			}
+		}
+		if (l > mid) {
+			for (int i = r; i <= right; i++) {
+				tempList.set(tempSize, list.get(i));
+				tempSize++;
 			}
 		}
 		
-		for (int i = left; i <= right; i ++) {
-			list.set(i, tempList.get(i));
+		for (int i = 0; i < tempSize; i++) {
+			list.set(i + left, tempList.get(i));
 		}
 	}
 	
