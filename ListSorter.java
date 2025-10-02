@@ -139,7 +139,6 @@ public class ListSorter {
 			quicksortRecursive(list, chooser, left, pivotIndex-1);
 			quicksortRecursive(list, chooser, pivotIndex+1, right);
 		}
-
 	}
 	
 	/**
@@ -185,6 +184,11 @@ public class ListSorter {
 		list.set(index2, temp);
 	}
 	
+	/**
+	 * Generates a list of integers from 1 ascending up to the size parameter, including the size parameter and 1.
+	 * @param size - the largest and last number in the list, the 
+	 * @return - a list type, specifically an ArrayList, with size to 1 in ascending order.
+	 */
 	public static List<Integer> generateAscending(int size){
 		if (size < 1) throw new IllegalArgumentException();
 		
@@ -195,6 +199,13 @@ public class ListSorter {
 		return ascending;
 	}
 	
+	/**
+	 * Generates a list of unique integers spanning from 1 until the size parameter, including size, but the numbers
+	 * are arranged in a random order
+	 * @param size - the largest integer in the list. All other integers between 1 and size will occur once, but the order
+	 * is unknown.
+	 * @return - a list type, specifically an ArrayList, of numbers 1 through size in random order
+	 */
 	public static List<Integer> generatePermuted(int size){
 		if (size < 1) throw new IllegalArgumentException();
 		
@@ -206,6 +217,11 @@ public class ListSorter {
 		return permuted;
 	}
 	
+	/**
+	 * Generates a list of integers from size descending down to 1 parameter, including the size parameter and 1.
+	 * @param size - the largest and first number in the list, the 
+	 * @return - a list type, specifically an ArrayList, with size to 1 in reverse order.
+	 */
 	public static List<Integer> generateDescending(int size){
 		if (size < 1) throw new IllegalArgumentException();
 		

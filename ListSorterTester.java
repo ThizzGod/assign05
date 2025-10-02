@@ -84,7 +84,7 @@ class ListSorterTester {
 			ascendingInts.add(i);
 		}
 		//add descendingInts
-		for (int i = 50; i <= 1; i--) {
+		for (int i = 50; i >= 1; i--) {
 			descendingInts.add(i);
 		}
 	}
@@ -168,7 +168,7 @@ class ListSorterTester {
 
 	@Test
 	void testGeneratePermuted() {
-		assertNotEquals(ascendingInts, ListSorter.generateAscending(50));
+		assertNotEquals(ascendingInts, ListSorter.generatePermuted(50));
 	}
 	
 	@Test
