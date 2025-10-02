@@ -1,12 +1,25 @@
 package assign05;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This class contains the code for the sorting algorithms merge sort and quicksort
+ * 
+ * @author Max Barker and Josi Gac
+ * @version 9/30/25
+ */
 public class ListSorter {
 
+	/**
+	 * Makes sure the threshold is an acceptable number, creates a temporary list for merge storage and calls
+	 * the merge sort recursive step
+	 * 
+	 * @param <T> the type of elements in the list
+	 * @param list the list to be sorted
+	 * @param threshold size of the subarray
+	 */
 	public static <T extends Comparable<? super T>> void mergesort(List<T> list, int threshold) {
 		if (threshold <= 0) {
 			throw new IllegalArgumentException();
@@ -20,10 +33,12 @@ public class ListSorter {
 	}
 	
 	/**
-	 * Sorts the array given using insertion sort and the given comparator
-	 * @param <T> type of elements in the array
-	 * @param arr the array to be sorted
-	 * @param cmp the comparator used to compare elements
+	 * Sorts the list given using insertion sort and the given comparator
+	 * 
+	 * @param <T> type of elements in the list
+	 * @param arr the list to be sorted
+	 * @param left the first element of the list
+	 * @param right the last element of the list
 	 */
 	public static <T extends Comparable<? super T>> void insertionSort(List<T> arr, int left, int right) {
 		for (int i = left + 1; i <= right; i++) {
@@ -39,6 +54,16 @@ public class ListSorter {
 	    }
 	}
 	
+	/**
+	 * Calls the merge sort recursively and split the list into two halves, the base case will call insertion sort on the small sublist
+	 * 
+	 * @param <T> type of elements in the list
+	 * @param list the list to be sorted
+	 * @param threshold the size of the sublist
+	 * @param left the first element of the list
+	 * @param right the last element of the list
+	 * @param tempList a temporary list for merge space
+	 */
 	private static <T extends Comparable<? super T>> void mergesortRecursive(List<T> list, int threshold, int left, int right, List<T> tempList) {
 		if ((right - left + 1) <= threshold) {
 			insertionSort(list, left, right);
@@ -52,6 +77,18 @@ public class ListSorter {
 		
 	}
 	
+	/**
+	 * This method deals with only the merge step of merge sort, it works by comparing the elements of each sublist
+	 * and then copying the smaller element into the temporary list then moving the pointer. After it is done it copies
+	 * everything back over to the original list
+	 * 
+	 * @param <T> type of elements in the list
+	 * @param list the list to be sorted
+	 * @param left the first element of the list
+	 * @param mid the middle element of the list
+	 * @param right the last element of the list
+	 * @param tempList a temporary list for merge space
+	 */
 	private static <T extends Comparable<? super T>> void mergeStep(List<T> list, int left, int mid, int right, List<T> tempList) {	
         int i = left;
         int j = mid + 1;
@@ -75,10 +112,26 @@ public class ListSorter {
         }
 	}
 	
+	/**
+	 * Calls the quicksort recursive step
+	 * 
+	 * @param <T> type of elements in the list
+	 * @param list the list to be sorted
+	 * @param chooser the pivot to be chosen
+	 */
 	public static <T extends Comparable<? super T>> void quicksort(List<T> list, PivotChooser<T> chooser) {
 		quicksortRecursive(list, chooser, 0, list.size() - 1);
 	}
 	
+	/**
+	 * Recursively quicksorts the inputed list, the base case partitions the list
+	 * 
+	 * @param <T> type of elements in the list
+	 * @param list the list to be sorted
+	 * @param chooser the pivot to be chosen
+	 * @param left the first element in the list
+	 * @param right the last element in the list
+	 */
 	private static <T extends Comparable<? super T>> void quicksortRecursive(List<T> list, PivotChooser<T> chooser, int left, int right) {
 		if (left < right) {
 			int pivotIndex = partition(list, chooser, left, right);
@@ -87,9 +140,19 @@ public class ListSorter {
 			quicksortRecursive(list, chooser, pivotIndex+1, right);
 		}
 
-		
 	}
 	
+	/**
+	 * The method deals with only rearranging the list around the chosen pivot based on the elements value,
+	 * if the element is less than the pivot it will go to left of the pivot, if it's greater than it goes to the right
+	 * 
+	 * @param <T> type of elements in the list
+	 * @param list the list to be sorted
+	 * @param chooser the pivot to be chosen
+	 * @param left the first element in the list
+	 * @param right the last element in the list
+	 * @return the index of the pivot element
+	 */
 	private static  <T extends Comparable<? super T>> int partition(List<T> list, PivotChooser<T> chooser, int left, int right) {
 		int pivotIndex = chooser.getPivotIndex(list, left, right);
 		swap(list, pivotIndex, right);
@@ -108,6 +171,14 @@ public class ListSorter {
 		return i;
 	}
 	
+	/**
+	 * Swaps two elements in the list
+	 * 
+	 * @param <T> type of elements in the list
+	 * @param list the list to be sorted
+	 * @param index1 the current index
+	 * @param index2 the index to swap with
+	 */
 	private static <T extends Comparable<? super T>> void swap(List<T> list, int index1, int index2) {
 		T temp = list.get(index1);
 		list.set(index1, list.get(index2));
